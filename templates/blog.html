@@ -22,13 +22,13 @@
     {% else %}
 
         <ul>
-                {% set x = 0%}
+                
             {% for body in bodies %}
             <li>
-                <h2>{{body[x]}}</h2>
+                <h2>{{body}}</h2>
             
             </li>
-                {%set x += 1%}
+                
             {% endfor %}
             
         </ul>
