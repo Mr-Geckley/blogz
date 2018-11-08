@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 class Title(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(20))
+    headline = db.Column(db.String(20))
 
     def __init__(self, name):
         self.name = name
@@ -19,10 +19,12 @@ class Title(db.Model):
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    titles = []
+
     if request.method == 'POST':
-        title = request.form['title']
-        titles.append(title)
+        title_name = request.form['title']
+        new_title = Title(title_name)
+        db.session.add(new_title)
+        db.session.commit()
 
     titles = Title.query.all()
     return render_template('main.html', title="BUILD-A-BLOG", titles=titles)
