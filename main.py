@@ -2,37 +2,30 @@ from flask import Flask, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:letsgo@localhost:8889/build-a-blog'
-                                         
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['DEBUG']=True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://builds-a-blog:buildsablog@localhost:8889/builds-a-blog'
+app.config['SQLALCHEMY_ECHO']=True
 db = SQLAlchemy(app)
 
-class Blog(db.Model): 
+class Title(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120))
-    body = db.Column(db.String(500))
+    title = db.Column(db.String(20))
+
+    def __init__(self, name):
+        self.name = name
 
 
-    def __init__(self, title, body):
-        self.title = title
-        self.body = body
-
-blogs = []
-bodies = []   
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-
+    titles = []
     if request.method == 'POST':
-        blog = (request.form['blog'])
-        body = (request.form['body'])
+        title = request.form['title']
+        titles.append(title)
 
-        blogs.append(blog)
-        bodies.append(body)
-    
-    return render_template('blog.html', title="Build A Blog", blogs=blogs, bodies=bodies)
+    titles = Title.query.all()
+    return render_template('main.html', title="BUILD-A-BLOG", titles=titles)
 
 if __name__ == '__main__':
     app.run()

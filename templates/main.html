@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>git-it-fun</title>
+        <title>git-it-run</title>
     </head>
     <body>
         <h1>git-it-run</h1>
         <form method='post'>
             <label>
-                <input type="text" name='task'>
+                <input type="text" name='title'>
             </label>
-            <input type="submit" value='Add Task'>
+            <input type="submit" value='Add Title'>
         </form>
 
         <hr>
 
-        {% if tasks|length == 0 %}
-        <p>No tasks yet</p>
+        {% if titles|length == 0 %}
+        <p>No titles yet</p>
         {% else %}
 
             <ul>
-                {% for task in tasks %}
-                <li>{{task}}</li>
+                {% for title in titles %}
+                <li>{{title}}</li>
                 {% endfor %}
             </ul>
 
