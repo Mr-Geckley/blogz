@@ -20,11 +20,26 @@
 
             <ul>
                 {% for title in titles %}
-                <li>{{title.title}}</li>
+                <li>{{title.title}}
+                    <form action="/delete-title" method="POST" style="display:inline-block;">
+                        <input type="hidden" name="title-id" value="{{title.id}}">
+                        <input type="submit" value="DONE!">
+                    </form>
+                </li>
                 {% endfor %}
             </ul>
 
         {% endif %}
+
+        <hr>
+
+        <h2>Read</h2>
+
+        <ul>
+            {% for title in read_titles %}
+            <li>{{title.title}}</li>
+            {% endfor %}
+        </ul>
 
 
     </body>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+        <h1>git-it-run</h1>
+        <form method='post'>
+            <label>
+                <input type="text" name='title' id="blog_form">
+            </label>
+            
+            <input type="text" name='blog'>
+
+            <input type="submit" value='Add Title'>
+        </form>
+        
+        
+
+        <hr>
+
+        {% if titles|length == 0 %}
+        <p>No titles yet</p>
+        {% else %}
+
+     
+           
+        <a href="/newpost">newpost
+        </a>
+
+        <a href="/blog">blog
+        </a>
+
+        {% endif %}
+
+        <hr>
+        
+            {% for n in range(titles|length) %}
+                <h2>{{titles[n].title}}</h2>
+                <p>{{blogs[n].blog}}</p>
+                
+            {% endfor %}
+        
+{% endblock content %}
+        
+
+
+    </body>
+</html>
