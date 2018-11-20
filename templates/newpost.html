@@ -2,14 +2,27 @@
 
 {% block content %}
 
-<form method='post'>
-    <label>
-        <input type="text" name='title' id="blog_form">
+<form method='POST'>
+    <label>Title:
+        <br>
+    <input type="text" name="title" value='{{title}}' />
+                <span class='error'>{{title_error}}</span>
     </label>
-    
-    <input type="text" name='blog'>
+    <br/>
 
-    <input type="submit" value='Add Title'>
+    <label>Body:
+    <br>
+    <textarea name="body" rows="10" cols="100" ></textarea>
+        <span class='error'>{{body_error}}</span>
+    </label>
+
+    <br>
+
+<input type='submit' value="Add Blog Post" />
+
+</body>
+
 </form>
+
 
 {% endblock content %}

@@ -7,58 +7,65 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://builds-a-blog:buildsabl
 app.config['SQLALCHEMY_ECHO']=True
 db = SQLAlchemy(app)
 
-class Title(db.Model):
+app.secret_key = '8jsu7YchIOpwKmd8'
+
+class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20))
-    did_read = db.Column(db.Boolean, default=False)
+    body = db.Column(db.String(300))
 
-    def __init__(self, title):
+    def __init__(self, title, body):
         self.title = title
-        self.completed = False
+        self.body = body
 
-class Blog(db.Model):
-
-    id = db.Column(db.Integer, primary_key=True)
-    blog = db.Column(db.String(300))
-
-    def __init__(self, blog):
-        self.blog = blog
-
-
-
-
-
-
-@app.route('/blog', methods=['POST', 'GET'])
+@app.route('/')
 def index():
-
-    title_and_blog = ''
-    if request.method == 'POST':
-        title_name = request.form['title']
-        new_title = Title(title_name)
-        db.session.add(new_title)
-        db.session.commit()
-        title_and_blog = title_and_blog + title_name
-        
-        blog_name = request.form['blog']
-        new_blog = Blog(blog_name)
-        db.session.add(new_blog)
-        db.session.commit()
-        title_and_blog = title_and_blog + blog_name
-        
+    return redirect('/blog')
     
-    titles = Title.query.filter_by(did_read=False).all()
-    read_titles = Title.query.filter_by(did_read=True).all()
-    blogs = Blog.query.all()
-    return render_template('blog.html', title="BUILD-A-BLOG", 
-        titles=titles, read_titles=read_titles, blogs=blogs)
+@app.route('/blog', methods=['POST', 'GET'])
+def display_blogs():
 
-@app.route("/newpost")
-def new_post_form():
+    all_posts = Post.query.all()
+    id = request.query_string
+
+    if request.method == 'GET':
+        if not id:
+            return render_template('blog.html', all_posts=all_posts)
+        else: 
+            e = int(request.args.get('e'))
+            post = Post.query.get(e)
+            return render_template('solo_posto.html', post=post)
+
+@app.route('/newpost', methods= ['GET'])
+def display_newpost_form():
     return render_template('newpost.html')
 
+@app.route('/newpost', methods=['POST'])
+def create_post():
 
+    title = request.form['title']
+    body = request.form['body']
 
+    if not title and not body:
+        return render_template('newpost.html', title_error="Need a title, fam", body_error="Look at all that empty")     
+
+    elif not title:
+        return render_template('newpost.html', title_error="Need a title, fam", body=body)    
+        
+    elif not body:
+        return render_template('newpost.html', body_error="Look at all that empty", title=title)  
+        
+        return render_template('/blog?id={0}'.format(Post))
+
+    else:
+        new_post = Post(title, body)
+        db.session.add(new_post)
+        db.session.commit()
+        
+        post = new_post
+    
+    return render_template('solo_posto.html', post=post)
+    
 if __name__ == '__main__':
     app.run()
