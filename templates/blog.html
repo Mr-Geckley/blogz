@@ -1,24 +1,20 @@
+
 {% extends "base.html" %}
+
 {% block content %}
 
-        <h1>BLOG-A-LOG-A-DING-DONG</h1>
+<h1>Blog Posts</h1>
 
-        <a href="/newpost">newpost
-        </a>
-        <a href="/blog">blog
-        </a>
+    <ul>
+        
+        {% for blog in blogs %}
 
-        {% if all_posts|length == 0 %}
+        <h2><a href="/blog?id={{blog.id}}">{{blog.title}}</a></h2>
+        <p>{{blog.body}}</p>
+        <p><strong>Post By: </strong><a href="/blog?user={{blog.owner_id}}">{{blog.owner.username}}</a></p>
+        <hr>
 
-        <p>No Posts Yet</p>
+        {% endfor %}
 
-        {% else %}
-        <div>
-            {% for post in all_posts %}
-                <a href="/blog?e={{post.id}}"><h2>{{post.title}}</h2></a>
-                <p>{{post.body}}</p>
-        </div>      
-            {% endfor %}
-        {% endif %}
-
-{% endblock content %}
+    </ul>
+{% endblock %}

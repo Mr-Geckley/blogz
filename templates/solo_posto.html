@@ -2,7 +2,10 @@
 
 {% block content %}
 
-<h1>{{ post.title }}</h1>
-<p>{{ post.body }}</p>
+<h1> {{post.title}} </h1>
+<p>
+    {{post.body}}
+</p>
+<p>Post by: <a href="/blog?user={{post.author_id}}">{{post.author.un}}</a></p>
 
-{% endblock content %}
+{% endblock %}
